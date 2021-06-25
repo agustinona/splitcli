@@ -121,6 +121,11 @@ def clone_split(workspace):
             source_environment,
         )
 
+        menu.success_message(f"Cloned split {split_name} from {source_split['name']}!")
+
+        split = splits_api.get_split(workspace["id"], split_name)
+        manage_split(workspace, split)
+
     except Exception as exc:
         menu.error_message("Could not create split\n" + str(exc))
 
@@ -206,9 +211,10 @@ def clone_split_operator(
     source_environment="_ALL_",
 ):
     # Create Metadata
+    traffic_type_name = source_split["trafficType"]["name"]
     splits_api.create_split(
         workspace_id,
-        source_split["trafficType"]["name"],
+        traffic_type_name,
         target_split_name,
         target_split_description,
     )
