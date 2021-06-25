@@ -5,12 +5,14 @@ def set_configuration(definition, treatment_name, configuration):
             return definition
     raise ValueError("Treatment does not exist: " + treatment_name)
 
+
 def set_segments(definition, treatment_name, segments):
     for treatment in definition["treatments"]:
         if treatment["name"] == treatment_name:
             treatment["segments"] = segments
             return definition
     raise ValueError("Treatment does not exist: " + treatment_name)
+
 
 def set_keys(definition, treatment_name, keys):
     for treatment in definition["treatments"]:
@@ -19,24 +21,31 @@ def set_keys(definition, treatment_name, keys):
             return definition
     raise ValueError("Treatment does not exist: " + treatment_name)
 
+
 def ramp_default_rule(definition, treatment_map):
     treatments = []
-    for treatment,size in treatment_map.items():
+    for treatment, size in treatment_map.items():
         treatments.append(bucket(treatment, size))
-    definition['defaultRule'] = treatments
+    definition["defaultRule"] = treatments
     return definition
+
 
 def new_split(treatments, baseline):
     comment = "Created via Split CLI"
     return build_split(comment, treatments, baseline)
 
+
 def simple_treatments(treatments):
-    return list(map(lambda x: {"name":x},treatments))
+    return list(map(lambda x: {"name": x}, treatments))
+
 
 def bucket(treatment, size=100):
-    return {"treatment":treatment, "size":size}
+    return {"treatment": treatment, "size": size}
 
-def build_split(comment, treatments=["on","off"], baseline="off", default_rule=None, rules=[]):
+
+def build_split(
+    comment, treatments=["on", "off"], baseline="off", default_rule=None, rules=[]
+):
     if default_rule is None:
         default_rule = [bucket(baseline)]
     return {
@@ -45,5 +54,19 @@ def build_split(comment, treatments=["on","off"], baseline="off", default_rule=N
         "baselineTreatment": baseline,
         "rules": rules,
         "defaultRule": default_rule,
-        "comment": comment
+        "comment": comment,
     }
+
+
+def get_definition_template(definition, comment="Cloned via Split CLI"):
+    keys = [
+        "treatments",
+        "defaultTreatment",
+        "baselineTreatment",
+        "trafficAllocation",
+        "rules",
+        "defaultRule",
+    ]
+    template = {key: definition[key] for key in keys}
+    template["comment"] = comment
+    return template
