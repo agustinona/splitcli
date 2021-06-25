@@ -100,9 +100,9 @@ def clone_split(workspace):
                 ] = f"Copy rules from {environment['name']} (not defined)"
             else:
                 option["option_name"] = f"Copy rules from {environment['name']}"
-                option["operation"] = lambda bound_environment=environment: (
-                    bound_environment
-                )
+            option["operation"] = lambda bound_environment=environment: (
+                bound_environment
+            )
             options.append(option)
         options.append(
             {
