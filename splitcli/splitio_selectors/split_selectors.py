@@ -99,18 +99,18 @@ def clone_split(workspace):
                     "option_name"
                 ] = f"Clone rules from {environment['name']} (not defined)"
             else:
-                option["option_name"] = f"Copy rules from {environment['name']}"
+                option["option_name"] = f"Clone rules from {environment['name']}"
             option["operation"] = lambda bound_environment=environment: (
                 bound_environment
             )
             options.append(option)
         options.append(
             {
-                "option_name": "Copy from all environments",
+                "option_name": "Clone rules from all environments",
                 "operation": lambda: "_ALL_",
             }
         )
-        title = "Select environment to copy rules from:"
+        title = "Select environment to clone rules from:"
         source_environment, _ = menu.select_operation(title, options)
 
         clone_split_operator(

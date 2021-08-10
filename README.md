@@ -30,9 +30,11 @@ If you have a Split account already, select `Yes, take me to sign in` from the i
 
 ## Manage Splits
 
-A split is another name for a feature flag, which allows you to separate code deployment from feature release. When you select `Manage Splits` from the Main Menu, you will see a list of the splits that are already in your organization, as well as the option to create a new split. 
+A split is another name for a feature flag, which allows you to separate code deployment from feature release. When you select `Manage Splits` from the Main Menu, you will see a list of the splits that are already in your organization, as well as the option to create a new split or clone an existing one. 
 
 To create a new split, select `Create a new split` from the menu. You will then be prompted to enter a name for your split, as well as a description. Next, you will choose whether you want a simple rollout, which will give you the ability to turn a feature on or off in any environment, or a custom rollout, where you can have a custom set of treatments.
+
+To clone an existing split, select `Clone a split` from the menu. You will then be prompted to enter a name for your split, as well as a description. Next, you will select the split you want to clone. Finally, you can either select a particular environment from which to clone the split's rules, or clone rules from all environments.
 
 You will then choose which environment you wish to manage your split in. 
 
