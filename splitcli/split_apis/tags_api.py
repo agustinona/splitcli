@@ -11,5 +11,4 @@ def add_tags(workspace_id, object_name, tags, object_type="Split"):
     path = tags_create_url(workspace_id,object_name,object_type)
     content = tags
     result = http_client.post(path, content)
-    print(path)
     return result
