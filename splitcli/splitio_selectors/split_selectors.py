@@ -1,5 +1,5 @@
 from splitcli.templates import split_templates
-from splitcli.split_apis import splits_api, environments_api, definitions_api
+from splitcli.split_apis import splits_api, environments_api, definitions_api, tags_api
 from splitcli.splitio_selectors import core_selectors, definition_selectors
 from splitcli.ux import menu
 
@@ -87,6 +87,18 @@ def clone_split(workspace):
 
         source_split, _ = menu.select_operation(title, options)
 
+        title = "Clone split tags?"
+        options = []
+        option = {}
+        option["option_name"] = "Yes"
+        option["operation"] = lambda: True
+        options.append(option)
+        option = {}
+        option["option_name"] = "No"
+        option["operation"] = lambda: False
+        options.append(option)
+        clone_tags, _ = menu.select_operation(title,options)
+
         environments = environments_api.list_environments(workspace["id"])
         options = []
         for environment in environments:
@@ -117,6 +129,7 @@ def clone_split(workspace):
             workspace["id"],
             split_name,
             split_description,
+            clone_tags,
             source_split,
             source_environment,
         )
@@ -207,6 +220,7 @@ def clone_split_operator(
     workspace_id,
     target_split_name,
     target_split_description,
+    clone_tags,
     source_split,
     source_environment="_ALL_",
 ):
@@ -218,6 +232,13 @@ def clone_split_operator(
         target_split_name,
         target_split_description,
     )
+
+    if clone_tags:
+        tags = source_split["tags"]
+        if tags != None:
+            tags = [item["name"] for item in tags]
+            tags_api.add_tags(workspace_id,target_split_name,tags)
+
     if source_environment == "_ALL_":
         environments = environments_api.list_environments(workspace_id)
     else:
